@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Body Temple Gym — Forge Your Strength</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ———— GREYISH CLASSIC GYM AESTHETIC ———— */
+        :root {
+            --charcoal: #1e1e1e;
+            --dark-grey: #2d2d2d;
+            --mid-grey: #4a4a4a;
+            --light-grey: #7a7a7a;
+            --off-white: #e8e4de;
+            --concrete: #d4d0c8;
+            --steel: #8a8a8a;
+            --accent: #6b7b8d;
+            --accent-dark: #4a5a6a;
+            --glass-bg: rgba(30, 30, 30, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-heavy: 0 8px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .display {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        body {
+            background: #161616;
+            color: #e0dbd4;
+            overflow-x: hidden;
+        }
+
+        /* Grain texture */
+        .grain::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: .04;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='.85'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        }
+
+        /* Hero background — dark industrial */
+        .hero-bg {
+            background:
+                radial-gradient(ellipse at 70% 30%, rgba(107, 123, 141, 0.12), transparent 55%),
+                radial-gradient(ellipse at 30% 70%, rgba(255, 255, 255, 0.03), transparent 50%),
+                linear-gradient(145deg, #1a1a1a 0%, #242424 100%);
+        }
+
+        /* Glossy card — dark matte */
+        .card-matte {
+            background: rgba(40, 40, 40, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            transition: all .4s ease;
+        }
+
+        .card-matte:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-heavy), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-matte-dark {
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            transition: all .4s ease;
+        }
+
+        .card-matte-dark:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-featured {
+            background: linear-gradient(145deg, #2a2a2a 0%, #3a3a3a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            position: relative;
+            color: #e8e4de;
+        }
+
+        .card-featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #6b7b8d;
+            color: #f0ede8;
+            font-weight: 700;
+            font-size: 10px;
+            padding: 4px 18px;
+            border-radius: 20px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 12px rgba(107, 123, 141, 0.3);
+        }
+
+        /* Accent gradient text — steel grey */
+        .steel-glow {
+            background: linear-gradient(135deg, #b0b8c0 0%, #6b7b8d 40%, #b0b8c0 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a5a6a 0%, #6b7b8d 100%);
+            color: #f0ede8;
+            font-weight: 600;
+            transition: all .3s ease;
+            box-shadow: 0 4px 16px rgba(107, 123, 141, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(107, 123, 141, 0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #b0b8c0;
+            font-weight: 600;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            transition: all .3s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #f0ede8;
+        }
+
+        .marquee {
+            display: flex;
+            animation: scroll 28s linear infinite;
+            width: max-content;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0)
+            }
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(20, 20, 20, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .img-frame {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .glow-steel {
+            box-shadow: 0 0 60px rgba(107, 123, 141, 0.08);
+        }
+
+        .class-card {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .class-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+        }
+
+        .class-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* WhatsApp contact — dark steel */
+        .whatsapp-contact {
+            display: block;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 60px;
+            padding: 12px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            text-decoration: none;
+            color: #b0b8c0;
+        }
+
+        .whatsapp-contact:hover {
+            background: rgba(107, 123, 141, 0.15);
+            border-color: rgba(107, 123, 141, 0.3);
+            color: #e8e4de;
+            transform: scale(1.01);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .whatsapp-contact span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .whatsapp-contact-light {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #c8c4be;
+        }
+
+        .whatsapp-contact-light:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #f0ede8;
+        }
+
+        .anonymous-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #8a8a8a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all .8s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, .7);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, .7)
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0)
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0)
+            }
+        }
+
+        /* Text overrides for dark theme */
+        .text-gray-300 {
+            color: #9a9a9a;
+        }
+        .text-gray-400 {
+            color: #8a8a8a;
+        }
+        .text-gray-500 {
+            color: #7a7a7a;
+        }
+        .text-gray-600 {
+            color: #6a6a6a;
+        }
+        .border-white\/10 {
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .border-white\/5 {
+            border-color: rgba(255, 255, 255, 0.03);
+        }
+        .bg-black {
+            background: #161616;
+        }
+        .bg-white\/5 {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .bg-black\/30 {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .bg-black\/40 {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        .bg-black\/60 {
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .hover\:bg-white\/5:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .hover\:bg-gray-900:hover {
+            background: #2a2a2a;
+        }
+        .text-white {
+            color: #f0ede8;
+        }
+        .text-white\/90 {
+            color: rgba(240, 235, 224, 0.9);
+        }
+        .text-white\/80 {
+            color: rgba(240, 235, 224, 0.8);
+        }
+        .text-white\/70 {
+            color: rgba(240, 235, 224, 0.7);
+        }
+        .placeholder-white\/60::placeholder {
+            color: rgba(240, 235, 224, 0.4);
+        }
+        input {
+            color: #e8e4de;
+        }
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+        }
+        .border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        .focus\:border-white:focus {
+            border-color: #6b7b8d;
+        }
+        .bg-black {
+            background: #161616;
+            color: #f0ede8;
+        }
+        .text-gray-700 {
+            color: #6a6a6a;
+        }
+        .text-gray-800 {
+            color: #4a4a4a;
+        }
+        .text-gray-900 {
+            color: #2a2a2a;
+        }
+
+        /* Divider */
+        .divider-steel {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            height: 1px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a5a6a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7b8d;
+        }
+    </style>
+</head>
+<body class="relative grain">
+
+    <!-- NAV -->
+    <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#4a5a6a] to-[#6b7b8d] flex items-center justify-center font-bold text-[#f0ede8] text-sm tracking-wider">BT</div>
+                <span class="display text-2xl text-[#e8e4de]">Body<span class="text-[#6b7b8d]">Temple</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-[#8a8a8a]">
+                <a href="#home" class="hover:text-[#e8e4de] transition">Home</a>
+                <a href="#classes" class="hover:text-[#e8e4de] transition">Classes</a>
+                <a href="#pricing" class="hover:text-[#e8e4de] transition">Pricing</a>
+                <a href="#trainers" class="hover:text-[#e8e4de] transition">Trainers</a>
+                <a href="#contact" class="hover:text-[#e8e4de] transition">Contact</a>
+            </div>
+            <a href="#pricing" class="btn-primary px-5 py-2.5 rounded-lg text-sm">Join Now</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="hero-bg relative pt-32 pb-20 px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="reveal">
+                <!-- <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm">
+                    <span class="pulse-dot"></span>
+                    <span class="text-xs font-medium text-[#8a8a8a]">Open 24/7 — Free trial week</span>
+                </div> -->
+                <h1 class="display text-6xl md:text-8xl leading-none mb-6 text-[#e8e4de]">
+                    FORGE YOUR<br/>
+                    <span class="steel-glow">STRENGTH.</span><br/>
+                    UNLEASH POWER.
+                </h1>
+                <p class="text-lg text-[#8a8a8a] mb-8 max-w-lg">Premium equipment, world-class coaches, and a community built to push you past every limit. Your transformation starts here.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#pricing" class="btn-primary px-7 py-3.5 rounded-lg">Start Training →</a>
+                    <a href="#classes" class="btn-outline px-7 py-3.5 rounded-lg">Explore Classes</a>
+                </div>
+            </div>
+            <div class="relative reveal">
+                <div class="img-frame rounded-3xl p-2 glow-steel">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80" class="w-full h-full object-cover" alt="Athlete"/>
+                    </div>
+                </div>
+                <div class="absolute -bottom-6 -left-6 card-matte rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-[#4a5a6a]/20 flex items-center justify-center text-2xl">🏆</div>
+                        <div>
+                            <div class="font-bold text-[#e8e4de]">#1 Rated Gym</div>
+                            <div class="text-xs text-[#7a7a7a]">★★★★★ 4.9 / 5 reviews</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -top-4 -right-4 card-matte rounded-2xl p-4 shadow-lg hidden md:block">
+                    <div class="text-xs text-[#7a7a7a] mb-1">Today's Burn</div>
+                    <div class="display text-2xl steel-glow">3,240 kcal</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE — steel grey -->
+    <div class="border-y border-white/5 py-6 overflow-hidden bg-[#1a1a1a]">
+        <div class="marquee">
+            <div class="flex gap-16 items-center pr-16">
+                <span class="display text-3xl text-[#4a4a4a]">STRENGTH</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">ENDURANCE</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">DISCIPLINE</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">POWER</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">RESULTS</span><span class="text-[#6b7b8d]">●</span>
+            </div>
+            <div class="flex gap-16 items-center pr-16">
+                <span class="display text-3xl text-[#4a4a4a]">STRENGTH</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">ENDURANCE</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">DISCIPLINE</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">POWER</span><span class="text-[#6b7b8d]">●</span>
+                <span class="display text-3xl text-[#4a4a4a]">RESULTS</span><span class="text-[#6b7b8d]">●</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLASSES -->
+    <section id="classes" class="py-24 px-6 bg-[#161616]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <div class="text-[#6b7b8d] font-semibold text-sm uppercase tracking-widest mb-3">Our Programs</div>
+                <h2 class="display text-5xl md:text-6xl text-[#e8e4de]">TRAIN <span class="steel-glow">YOUR WAY</span></h2>
+                <p class="text-[#7a7a7a] mt-4 max-w-xl mx-auto">From explosive HIIT sessions to mindful mobility — find the program that matches your goals.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="class-card rounded-2xl h-80 reveal" style="background-image:url('https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80')">
+                    <div class="absolute bottom-0 p-6">
+                        <div class="text-xs text-[#6b7b8d] font-semibold mb-1 tracking-wider">HIGH INTENSITY</div>
+                        <h3 class="display text-3xl mb-2 text-white">HIIT BURN</h3>
+                        <p class="text-sm text-white/80">45 min · max calorie torch</p>
+                    </div>
+                </div>
+                <div class="class-card rounded-2xl h-80 reveal" style="background-image:url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&q=80')">
+                    <div class="absolute bottom-0 p-6">
+                        <div class="text-xs text-[#6b7b8d] font-semibold mb-1 tracking-wider">POWER</div>
+                        <h3 class="display text-3xl mb-2 text-white">IRON LIFT</h3>
+                        <p class="text-sm text-white/80">60 min · strength & hypertrophy</p>
+                    </div>
+                </div>
+                <div class="class-card rounded-2xl h-80 reveal" style="background-image:url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=600&q=80')">
+                    <div class="absolute bottom-0 p-6">
+                        <div class="text-xs text-[#6b7b8d] font-semibold mb-1 tracking-wider">COMBAT</div>
+                        <h3 class="display text-3xl mb-2 text-white">BOX FIT</h3>
+                        <p class="text-sm text-white/80">50 min · cardio boxing</p>
+                    </div>
+                </div>
+                <div class="class-card rounded-2xl h-80 reveal" style="background-image:url('https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80')">
+                    <div class="absolute bottom-0 p-6">
+                        <div class="text-xs text-[#6b7b8d] font-semibold mb-1 tracking-wider">RECOVERY</div>
+                        <h3 class="display text-3xl mb-2 text-white">FLEX FLOW</h3>
+                        <p class="text-sm text-white/80">40 min · yoga & mobility</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION — greyish classic -->
+    <section id="pricing" class="py-24 px-6 relative" style="background:linear-gradient(180deg,#161616 0%,#1e1e1e 100%)">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <div class="text-[#6b7b8d] font-semibold text-sm uppercase tracking-widest mb-3">Membership Plans</div>
+                <h2 class="display text-5xl md:text-6xl text-[#e8e4de]">CHOOSE YOUR <span class="steel-glow">BATTLE</span></h2>
+                <p class="text-[#7a7a7a] mt-4 max-w-xl mx-auto">No hidden fees. Cancel anytime. All plans include free first session with a personal coach.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- PLAN 1: ESSENTIAL -->
+                <div class="card-matte rounded-3xl p-8 reveal">
+                    <div class="text-xs uppercase tracking-widest text-[#6a6a6a] mb-2">Essential</div>
+                    <h3 class="display text-4xl mb-4 text-[#e8e4de]">TEMPLE<span class="text-sm text-[#6a6a6a]"> ESSENTIAL</span></h3>
+                    <div class="flex items-end gap-1 mb-6">
+                        <span class="display text-6xl steel-glow">₹1999</span>
+                        <span class="text-[#6a6a6a] pb-2">/month</span>
+                    </div>
+                    <p class="text-[#7a7a7a] text-sm mb-6">Perfect for beginners getting started on their fitness journey.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-[#9a9a9a]">
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Full gym floor access</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Locker room & showers</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> 2 group classes / month</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Mobile app access</li>
+                        <li class="flex gap-3 text-[#5a5a5a]"><span>✗</span> Personal training</li>
+                        <li class="flex gap-3 text-[#5a5a5a]"><span>✗</span> Spa & sauna</li>
+                    </ul>
+                    <a href="https://wa.me/919997125258?text=Hello%20Body%20Temple%20Gym%2C%20I'm%20interested%20in%20the%20ESSENTIAL%20plan%20(₹1999%2Fmonth)." target="_blank" rel="noopener noreferrer" class="whatsapp-contact">
+                        <span>📞 CONTACT NOW →</span>
+                    </a>
+                </div>
+
+                <!-- PLAN 2: PRO (Featured) -->
+                <div class="card-featured rounded-3xl p-8 reveal">
+                    <div class="text-xs uppercase tracking-widest text-[#6b7b8d]/70 mb-2">Premium choice</div>
+                    <h3 class="display text-4xl mb-4 text-white">TEMPLE<span class="text-sm text-white/70"> PRO</span></h3>
+                    <div class="flex items-end gap-1 mb-6">
+                        <span class="display text-6xl text-white">₹2999</span>
+                        <span class="text-white/60 pb-2">/month</span>
+                    </div>
+                    <p class="text-white/80 text-sm mb-6">Everything you need to train hard and recover smart, all included.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-white/90">
+                        <li class="flex gap-3"><span class="text-[#8a9aaa]">✓</span> Unlimited gym access 24/7</li>
+                        <li class="flex gap-3"><span class="text-[#8a9aaa]">✓</span> Unlimited group classes</li>
+                        <li class="flex gap-3"><span class="text-[#8a9aaa]">✓</span> 2 PT sessions / month</li>
+                        <li class="flex gap-3"><span class="text-[#8a9aaa]">✓</span> Nutrition consultation</li>
+                        <li class="flex gap-3"><span class="text-[#8a9aaa]">✓</span> Sauna & steam access</li>
+                        <li class="flex gap-3"><span class="text-[#8a9aaa]">✓</span> Guest passes (2/mo)</li>
+                    </ul>
+                    <a href="https://wa.me/919997125258?text=Hello%20Body%20Temple%20Gym%2C%20I'm%20interested%20in%20the%20PRO%20plan%20(₹2999%2Fmonth)." target="_blank" rel="noopener noreferrer" class="whatsapp-contact whatsapp-contact-light">
+                        <span>💪 CONTACT NOW →</span>
+                    </a>
+                </div>
+
+                <!-- PLAN 3: SUPREME -->
+                <div class="card-matte rounded-3xl p-8 reveal">
+                    <div class="text-xs uppercase tracking-widest text-[#6a6a6a] mb-2">Ultimate</div>
+                    <h3 class="display text-4xl mb-4 text-[#e8e4de]">TEMPLE<span class="text-sm text-[#6a6a6a]"> SUPREME</span></h3>
+                    <div class="flex items-end gap-1 mb-6">
+                        <span class="display text-6xl steel-glow">₹3999</span>
+                        <span class="text-[#6a6a6a] pb-2">/month</span>
+                    </div>
+                    <p class="text-[#7a7a7a] text-sm mb-6">Full VIP treatment with custom programming and unlimited coaching.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-[#9a9a9a]">
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Everything in Pro</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Unlimited PT sessions</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Custom meal plans</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Recovery suite (massage)</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Body composition scans</li>
+                        <li class="flex gap-3"><span class="text-[#6b7b8d]">✓</span> Priority class booking</li>
+                    </ul>
+                    <a href="https://wa.me/919997125258?text=Hello%20Body%20Temple%20Gym%2C%20I'm%20interested%20in%20the%20SUPREME%20plan%20(₹3999%2Fmonth)." target="_blank" rel="noopener noreferrer" class="whatsapp-contact">
+                        <span>⚡ CONTACT NOW →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRAINERS SECTION -->
+    <section id="trainers" class="py-24 px-6 bg-[#161616]">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-wrap items-end justify-between mb-12 gap-4 reveal">
+                <div>
+                    <div class="text-[#6b7b8d] font-semibold text-sm uppercase tracking-widest mb-3">Meet the Team</div>
+                    <h2 class="display text-5xl md:text-6xl text-[#e8e4de]">EXPERT <span class="steel-glow">TRAINERS</span></h2>
+                </div>
+                <p class="text-[#7a7a7a] max-w-md">Certified, passionate, and ready to engineer your transformation.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <!-- Trainer 1 -->
+                <div class="card-matte rounded-2xl overflow-hidden reveal">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=500&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-700"/>
+                    </div>
+                    <div class="p-5 bg-[#1e1e1e]/80 backdrop-blur-sm">
+                        <h4 class="font-bold text-xl text-[#e8e4de]">Trainer</h4>
+                        <p class="text-[#6b7b8d] text-sm">Head Strength & Conditioning</p>
+                        <p class="text-xs text-[#6a6a6a] mt-2">12+ years · NSCA Certified · Elite specialist</p>
+                    </div>
+                </div>
+                <!-- Trainer 2 -->
+                <div class="card-matte rounded-2xl overflow-hidden reveal">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1609899537878-88d5ba429bdf?w=500&q=80" class="w-full h-full object-cover hover:scale-110 transition duration-700"/>
+                    </div>
+                    <div class="p-5 bg-[#1e1e1e]/80 backdrop-blur-sm">
+                        <h4 class="font-bold text-xl text-[#e8e4de]">Trainer</h4>
+                        <p class="text-[#6b7b8d] text-sm">High-Performance & HIIT Coach</p>
+                        <p class="text-xs text-[#6a6a6a] mt-2">9+ years · ACE Certified · Metabolic expert</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS — anonymous -->
+    <section class="py-24 px-6" style="background:linear-gradient(180deg,#161616 0%,#1e1e1e 100%)">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <div class="text-[#6b7b8d] font-semibold text-sm uppercase tracking-widest mb-3">Real Results</div>
+                <h2 class="display text-5xl md:text-6xl text-[#e8e4de]">MEMBER <span class="steel-glow">STORIES</span></h2>
+                <p class="text-[#7a7a7a] mt-2">Authentic transformations from our community</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="card-matte rounded-2xl p-7 reveal">
+                    <div class="text-[#6b7b8d] mb-3">★★★★★</div>
+                    <p class="text-[#9a9a9a] mb-6">"Lost 32 kg in 5 months. The coaches actually care and the community pushes you when you don't want to push yourself. Life-changing."</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <div class="anonymous-badge">
+                            <span>🏋️</span> Verified member
+                        </div>
+                    </div>
+                </div>
+                <div class="card-matte rounded-2xl p-7 reveal">
+                    <div class="text-[#6b7b8d] mb-3">★★★★★</div>
+                    <p class="text-[#9a9a9a] mb-6">"The equipment is top tier and the 24/7 access fits my schedule perfectly. I've never been stronger. The value is unmatched."</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <div class="anonymous-badge">
+                            <span>🔥</span> 6-month streak
+                        </div>
+                    </div>
+                </div>
+                <div class="card-matte rounded-2xl p-7 reveal">
+                    <div class="text-[#6b7b8d] mb-3">★★★★★</div>
+                    <p class="text-[#9a9a9a] mb-6">"Coming from another gym, the difference is night and day. Cleaner, better trainers, and the recovery suite is incredible after heavy days."</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <div class="anonymous-badge">
+                            <span>⭐</span> Elite member
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA + WHATSAPP — dark steel -->
+    <section id="contact" class="py-24 px-6 bg-[#161616]">
+        <div class="max-w-5xl mx-auto rounded-3xl p-12 md:p-16 text-center relative overflow-hidden" style="background:linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%); border:1px solid rgba(255,255,255,0.06); box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+            <div class="absolute inset-0 opacity-5" style="background-image:radial-gradient(circle at 20% 20%,#6b7b8d 1px,transparent 1px),radial-gradient(circle at 80% 80%,#6b7b8d 1px,transparent 1px);background-size:30px 30px"></div>
+            <div class="relative">
+                <h2 class="display text-5xl md:text-7xl mb-4 text-[#e8e4de]">READY TO LIFT OFF?</h2>
+                <p class="text-lg text-[#8a8a8a] mb-8 max-w-xl mx-auto">Claim your free 7-day pass. No card. No commitment. Just results.</p>
+                <div class="flex flex-wrap justify-center gap-3 max-w-md mx-auto mb-6">
+                    <input type="email" placeholder="your@email.com" class="flex-1 min-w-[200px] px-5 py-3.5 rounded-xl bg-white/5 backdrop-blur border border-white/10 text-[#e8e4de] placeholder-white/30 focus:outline-none focus:border-[#6b7b8d]"/>
+                    <button class="px-7 py-3.5 rounded-xl bg-[#4a5a6a] hover:bg-[#6b7b8d] text-[#f0ede8] font-semibold transition shadow-lg shadow-[#4a5a6a]/20">Claim Pass</button>
+                </div>
+                <div class="mt-4">
+                    <a href="https://wa.me/919997125258?text=Hello%20Body%20Temple%20Gym%2C%20I'd%20like%20to%20know%20more%20about%20your%20membership%20and%20free%20trial." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full font-semibold text-[#b0b8c0] transition-all border border-white/10">
+                        <span>📲</span> Chat with us on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER — dark grey, no email -->
+    <footer class="border-t border-white/5 py-12 px-6 bg-[#141414]">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 mb-10">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#4a5a6a] to-[#6b7b8d] flex items-center justify-center font-bold text-[#f0ede8] text-sm tracking-wider">BT</div>
+                    <span class="display text-2xl text-[#e8e4de]">Body<span class="text-[#6b7b8d]">Temple</span></span>
+                </div>
+                <p class="text-sm text-[#6a6a6a]">Forge your strength. Unleash your power. Built for those who refuse to quit.</p>
+                <div class="mt-4">
+                    <a href="https://wa.me/919997125258?text=Hello%20Body%20Temple%20Gym%2C%20I'm%20interested%20in%20joining." target="_blank" class="text-xs text-[#6b7b8d] hover:text-[#8a9aaa] flex items-center gap-1">
+                        <span>💬</span> WhatsApp us: 9997125258
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-[#8a8a8a]">Explore</h4>
+                <ul class="space-y-2 text-sm text-[#6a6a6a]">
+                    <li><a href="#classes" class="hover:text-[#e8e4de] transition">Classes</a></li>
+                    <li><a href="#pricing" class="hover:text-[#e8e4de] transition">Pricing</a></li>
+                    <li><a href="#trainers" class="hover:text-[#e8e4de] transition">Trainers</a></li>
+                    <li><a href="#" class="hover:text-[#e8e4de] transition">Schedule</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-[#8a8a8a]">Contact</h4>
+                <ul class="space-y-2 text-sm text-[#6a6a6a]">
+                    <li>📍 Gali no 3, Shiv Shakti Vihar Rd, Jai Bhim Nagar, Meerut, Uttar Pradesh 250004</li>
+                    <li>📞 9997125258</li>
+                    <li>🕐 Open 24/7</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-[#8a8a8a]">Follow</h4>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-[#4a5a6a] hover:text-white hover:border-[#4a5a6a] transition text-[#6a6a6a]">IG</a>
+                    <a href="#" class="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-[#4a5a6a] hover:text-white hover:border-[#4a5a6a] transition text-[#6a6a6a]">TT</a>
+                    <a href="#" class="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-[#4a5a6a] hover:text-white hover:border-[#4a5a6a] transition text-[#6a6a6a]">YT</a>
+                    <a href="#" class="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-[#4a5a6a] hover:text-white hover:border-[#4a5a6a] transition text-[#6a6a6a]">X</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 border-t border-white/5 flex flex-wrap justify-between text-xs text-[#5a5a5a]">
+            <span>© 2025 Body Temple Gym. All rights reserved.</span>
+            <span>Built for warriors. Powered by pulse.</span>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t && !a.getAttribute('target')) {
+                    e.preventDefault();
+                    t.scrollIntoView({ behavior: 'smooth' });
+                }
+            })
+        });
+        // Reveal on scroll
+        const io = new IntersectionObserver(es => {
+            es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in');
+                    io.unobserve(e.target) } })
+        }, { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    </script>
+</body>
+</html>
